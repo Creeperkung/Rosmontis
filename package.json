@@ -1,0 +1,24 @@
+{
+  "name": "rosmontis",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Creeperkung/Rosmontis.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Creeperkung/Rosmontis/issues"
+  },
+  "homepage": "https://github.com/Creeperkung/Rosmontis#readme",
+  "description": "",
+  "dependencies": {
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2"
+  }
+}
