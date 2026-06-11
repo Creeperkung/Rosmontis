@@ -5,12 +5,14 @@ const animeSearch = require("./commands/anime-search");
 const animeRandom = require("./commands/anime-random");
 const animeTop = require("./commands/anime-top");
 const animeRecommend = require("./commands/anime-recommend");
+const characterRandom = require("./commands/character-random");
 
 const commands = [
     animeSearch.data.toJSON(),
     animeRandom.data.toJSON(),
     animeTop.data.toJSON(),
-    animeRecommend.data.toJSON()
+    animeRecommend.data.toJSON(),
+    characterRandom.data.toJSON()
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);

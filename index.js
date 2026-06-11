@@ -10,6 +10,7 @@ const animeSearch = require("./commands/anime-search");
 const randomAnime = require("./commands/anime-random");
 const topAnime = require("./commands/anime-top");
 const animeRecommend = require('./commands/anime-recommend');
+const characterRandom = require("./commands/character-random");
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds]
@@ -33,6 +34,10 @@ client.commands.set(
 client.commands.set(
     animeRecommend.data.name,
     animeRecommend
+);
+client.commands.set(
+    characterRandom.data.name,
+    characterRandom
 );
 
 client.once("ready", () => {
