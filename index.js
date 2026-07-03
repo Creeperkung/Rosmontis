@@ -11,7 +11,6 @@ client.login(process.env.DISCORD_TOKEN);
 
 client.commands = new Collection();
 
-
 const commandData = [];
 const commandsPath = path.join(__dirname, 'commands');
 
