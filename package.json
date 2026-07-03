@@ -18,7 +18,10 @@
   "homepage": "https://github.com/Creeperkung/Rosmontis#readme",
   "description": "",
   "dependencies": {
+    "better-sqlite3": "^12.11.1",
     "discord.js": "^14.26.4",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "octokit": "^5.0.5"
   }
 }
