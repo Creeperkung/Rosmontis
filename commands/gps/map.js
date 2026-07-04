@@ -3,7 +3,7 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 
 async function geocode(city) {
   const apiKey = process.env.OPENWEATHER_API_KEY;
-  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${apiKey}`;
+  const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(city)}&limit=1&appid=${apiKey}&lang=th`;
   const res = await fetch(url);
   const data = await res.json();
   if (!data.length) throw new Error('Not found');
@@ -16,7 +16,7 @@ function buildMapEmbed(geo, zoom = 12) {
 
   // Static map image via OpenStreetMap tiles (no key needed)
   // Using Yandex static maps as free fallback
-  const staticMap = `https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&z=${zoom}&l=map&size=650,300&pt=${lon},${lat},pm2rdm`;
+  const staticMap = `https://static-maps.yandex.ru/1.x/?ll=${lon},${lat}&z=${zoom}&l=map&size=650,300&pt=${lon},${lat},pm2rdm&language=en_US`;
 
   const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lon}&z=${zoom}`;
   const streetViewUrl = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lon}`;

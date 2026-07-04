@@ -1,11 +1,14 @@
 require('dotenv').config();
-const path = require("path");
 const fs = require('fs');
+const path = require('path');
 const { Client, GatewayIntentBits, Collection, REST, Routes } = require('discord.js');
-const setupWebhook = require('./webhook');
+const db = require('./db');
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildVoiceStates
+  ]
 });
 client.login(process.env.DISCORD_TOKEN);
 
@@ -19,6 +22,7 @@ const categoryFolders = fs.readdirSync(commandsPath).filter(f =>
   fs.statSync(path.join(commandsPath, f)).isDirectory()
 );
 
+// list all existed command
 for (const category of categoryFolders) {
   const categoryPath = path.join(commandsPath, category);
   const commandFiles = fs.readdirSync(categoryPath).filter(f => f.endsWith('.js'));
@@ -42,13 +46,30 @@ client.once('ready', async () => {
 
   const rest = new REST().setToken(process.env.DISCORD_TOKEN);
   await rest.put(
-  Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+  Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), // register bot command
     { body: commandData }
   );
-
-  setupWebhook(client);
+  db.closeOrphanedSessions();
 });
 
+// voice chat activity updater
+client.on('voiceStateUpdate', (oldState, newState) => {
+  const userId = newState.id;
+  const guildId = newState.guild.id;
+  const wasIn = oldState.channelId;
+  const isIn = newState.channelId;
+
+  if (!wasIn && isIn) {
+    db.startSession(guildId, userId, isIn);
+  } else if (wasIn && !isIn) {
+    db.endSession(guildId, userId, wasIn);
+  } else if (wasIn && isIn && wasIn !== isIn) {
+    db.endSession(guildId, userId, wasIn);
+    db.startSession(guildId, userId, isIn);
+  }
+});
+
+// Loop chat command and interaction button
 client.on("interactionCreate", async interaction => {
     console.log("Interaction received:", interaction.commandName);
 
